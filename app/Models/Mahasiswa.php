@@ -64,6 +64,30 @@ class Mahasiswa extends Model
     {
         return $this->hasMany(TugasSubmission::class);
     }
-}
 
+    public function tagihan()
+    {
+        return $this->hasMany(TagihanMahasiswa::class);
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasMany(PembayaranMahasiswa::class);
+    }
+
+    public function beasiswa()
+    {
+        return $this->hasMany(MahasiswaBeasiswa::class);
+    }
+
+    public function blokir()
+    {
+        return $this->hasMany(BlokirMahasiswa::class);
+    }
+
+    public function rplPengajuan()
+    {
+        return $this->hasMany(RplPengajuan::class);
+    }
+}
 

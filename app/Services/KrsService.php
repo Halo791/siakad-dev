@@ -13,13 +13,16 @@ class KrsService
 {
     protected AkademikService $akademikService;
     protected AkademikCalculationService $calculationService;
+    protected KrsReadinessService $readinessService;
 
     public function __construct(
         AkademikService $akademikService,
-        AkademikCalculationService $calculationService
+        AkademikCalculationService $calculationService,
+        KrsReadinessService $readinessService
     ) {
         $this->akademikService = $akademikService;
         $this->calculationService = $calculationService;
+        $this->readinessService = $readinessService;
     }
 
     public function getActiveKrsOrNew(Mahasiswa $mahasiswa)
@@ -30,13 +33,15 @@ class KrsService
             throw KrsException::noActiveSemester();
         }
 
-        return Krs::firstOrCreate(
+        $krs = Krs::firstOrCreate(
             [
                 'mahasiswa_id' => $mahasiswa->id,
                 'tahun_akademik_id' => $tahunAktif->id
             ],
             ['status' => 'draft']
         );
+
+        return $this->readinessService->refreshKrsFinanceState($krs);
     }
 
     /**
@@ -69,6 +74,8 @@ class KrsService
             if ($krs->status !== 'draft') {
                 throw KrsException::alreadySubmitted();
             }
+
+            $this->assertKrsFinanceClear($krs);
 
             $kelas = Kelas::with('mataKuliah')->findOrFail($kelasId);
             
@@ -113,12 +120,16 @@ class KrsService
             throw KrsException::locked();
         }
 
+        $this->assertKrsFinanceClear($krs);
+
         $detail = $krs->krsDetail()->findOrFail($detailId);
         $detail->delete();
     }
 
     public function submitKrs(Krs $krs)
     {
+        $this->assertKrsFinanceClear($krs);
+
         if ($krs->krsDetail()->count() === 0) {
             throw KrsException::emptyKrs();
         }
@@ -139,5 +150,19 @@ class KrsService
             throw KrsException::invalidStatus($krs->status, 'pending');
         }
         $krs->update(['status' => 'rejected']);
+    }
+
+    public function getReadiness(Mahasiswa $mahasiswa): array
+    {
+        return $this->readinessService->getSummary($mahasiswa);
+    }
+
+    protected function assertKrsFinanceClear(Krs $krs): void
+    {
+        $state = $this->readinessService->refreshKrsFinanceState($krs);
+
+        if ($state->keuangan_status !== 'clear') {
+            throw KrsException::financeBlocked($state->keuangan_catatan ?? 'KRS ditahan karena masalah keuangan atau RPL.');
+        }
     }
 }

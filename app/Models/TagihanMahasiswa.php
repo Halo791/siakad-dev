@@ -5,24 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Krs extends Model
+class TagihanMahasiswa extends Model
 {
     use HasFactory;
 
-    protected $table = 'krs';
+    protected $table = 'tagihan_mahasiswa';
 
     protected $fillable = [
         'mahasiswa_id',
         'tahun_akademik_id',
+        'jenis_tagihan',
+        'nominal',
+        'terbayar',
         'status',
-        'keuangan_status',
-        'keuangan_catatan',
-        'keuangan_checked_at',
+        'jatuh_tempo',
         'catatan',
     ];
 
     protected $casts = [
-        'keuangan_checked_at' => 'datetime',
+        'nominal' => 'integer',
+        'terbayar' => 'integer',
+        'jatuh_tempo' => 'date',
     ];
 
     public function mahasiswa()
@@ -35,13 +38,8 @@ class Krs extends Model
         return $this->belongsTo(TahunAkademik::class);
     }
 
-    public function krsDetail()
+    public function pembayaran()
     {
-        return $this->hasMany(KrsDetail::class);
-    }
-
-    public function isFinanceBlocked(): bool
-    {
-        return in_array($this->keuangan_status, ['pending_payment', 'waiting_scholarship', 'blocked'], true);
+        return $this->hasMany(PembayaranMahasiswa::class, 'tagihan_mahasiswa_id');
     }
 }

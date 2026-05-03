@@ -22,6 +22,7 @@ class KrsController extends Controller
         if (!$mahasiswa) abort(403, 'Unauthorized');
 
         $krs = $this->krsService->getActiveKrsOrNew($mahasiswa);
+        $readiness = $this->krsService->getReadiness($mahasiswa);
         
         // Load available classes (that are not yet taken), grouped by semester
         // IMPORTANT: Only show kelas from mata kuliah of mahasiswa's prodi
@@ -36,7 +37,7 @@ class KrsController extends Controller
         // Sort by semester number
         $availableKelas = $availableKelas->sortKeys();
 
-        return view('mahasiswa.krs.index', compact('krs', 'availableKelas'));
+        return view('mahasiswa.krs.index', compact('krs', 'availableKelas', 'readiness'));
     }
 
     public function store(Request $request)

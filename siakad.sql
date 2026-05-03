@@ -17,6 +17,14 @@ DROP TABLE IF EXISTS `logbook_kp`;
 DROP TABLE IF EXISTS `kerja_praktek`;
 DROP TABLE IF EXISTS `bimbingan_skripsi`;
 DROP TABLE IF EXISTS `skripsi`;
+DROP TABLE IF EXISTS `rpl_konversi`;
+DROP TABLE IF EXISTS `rpl_dokumen`;
+DROP TABLE IF EXISTS `rpl_pengajuan`;
+DROP TABLE IF EXISTS `pembayaran_mahasiswa`;
+DROP TABLE IF EXISTS `tagihan_mahasiswa`;
+DROP TABLE IF EXISTS `mahasiswa_beasiswa`;
+DROP TABLE IF EXISTS `beasiswa`;
+DROP TABLE IF EXISTS `blokir_mahasiswa`;
 DROP TABLE IF EXISTS `notifications`;
 DROP TABLE IF EXISTS `presensi`;
 DROP TABLE IF EXISTS `pertemuan`;
@@ -75,6 +83,12 @@ INSERT INTO migrations VALUES(35,'2025_12_22_151001_create_tugas_submission_tabl
 INSERT INTO migrations VALUES(36,'2025_12_22_160300_add_tahun_akademik_id_to_kelas_table',1);
 INSERT INTO migrations VALUES(37,'2025_12_22_160301_add_date_range_to_tahun_akademik_table',1);
 INSERT INTO migrations VALUES(38,'2025_12_26_180400_add_performance_indexes',1);
+INSERT INTO migrations VALUES(39,'2026_05_03_000001_create_beasiswa_tables',1);
+INSERT INTO migrations VALUES(40,'2026_05_03_000002_create_keuangan_mahasiswa_tables',1);
+INSERT INTO migrations VALUES(41,'2026_05_03_000003_create_blokir_mahasiswa_table',1);
+INSERT INTO migrations VALUES(42,'2026_05_03_000004_create_rpl_tables',1);
+INSERT INTO migrations VALUES(43,'2026_05_03_000005_add_finance_fields_to_krs_table',1);
+INSERT INTO migrations VALUES(44,'2026_05_03_000006_add_recognition_fields_to_rpl_pengajuan_table',1);
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (`email` varchar(255) not null, `token` varchar(255) not null, `created_at` datetime, primary key (`email`));
 CREATE TABLE IF NOT EXISTS `sessions` (`id` varchar(255) not null, `user_id` integer, `ip_address` varchar(255), `user_agent` text, `payload` text not null, `last_activity` integer not null, primary key (`id`));
 CREATE TABLE IF NOT EXISTS `cache` (`key` varchar(255) not null, `value` text not null, `expiration` integer not null, primary key (`key`));
@@ -443,3 +457,39 @@ CREATE INDEX `jadwal_kuliah_kelas_index` on `jadwal_kuliah` (`kelas_id`);
 CREATE INDEX `jadwal_kuliah_hari_index` on `jadwal_kuliah` (`hari`);
 CREATE INDEX `ai_logs_mahasiswa_index` on `ai_conversation_logs` (`mahasiswa_id`);
 CREATE INDEX `ai_logs_created_at_index` on `ai_conversation_logs` (`created_at`);
+
+CREATE TABLE IF NOT EXISTS `beasiswa` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `nama` varchar(255) not null, `jenis` varchar(255) not null, `coverage_type` varchar(255) not null default 'partial', `coverage_percent` tinyint unsigned not null default '0', `kuota` int unsigned not null default '0', `aktif` tinyint(1) not null default '1', `deskripsi` text, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `mahasiswa_beasiswa` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `mahasiswa_id` bigint unsigned not null, `beasiswa_id` bigint unsigned not null, `tahun_akademik_id` bigint unsigned not null, `nomor_sk` varchar(255), `status` varchar(255) not null default 'pengajuan', `mulai_berlaku` date, `berakhir_berlaku` date, `catatan` text, `disetujui_oleh` bigint unsigned, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `tagihan_mahasiswa` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `mahasiswa_id` bigint unsigned not null, `tahun_akademik_id` bigint unsigned not null, `jenis_tagihan` varchar(255) not null, `nominal` bigint unsigned not null default '0', `terbayar` bigint unsigned not null default '0', `status` varchar(255) not null default 'belum_bayar', `jatuh_tempo` date, `catatan` text, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `pembayaran_mahasiswa` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `tagihan_mahasiswa_id` bigint unsigned not null, `mahasiswa_id` bigint unsigned not null, `metode_pembayaran` varchar(255) not null, `jumlah_bayar` bigint unsigned not null default '0', `tanggal_bayar` date, `status_verifikasi` varchar(255) not null default 'pending', `bukti_transfer` varchar(255), `diverifikasi_oleh` bigint unsigned, `catatan_verifikasi` text, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `blokir_mahasiswa` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `mahasiswa_id` bigint unsigned not null, `tahun_akademik_id` bigint unsigned, `tipe_blokir` varchar(255) not null, `status` varchar(255) not null default 'aktif', `alasan` text not null, `dibuat_oleh` bigint unsigned, `dicabut_oleh` bigint unsigned, `expired_at` datetime, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `rpl_pengajuan` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `mahasiswa_id` bigint unsigned not null, `tahun_akademik_id` bigint unsigned not null, `judul_pengajuan` varchar(255) not null, `jenis_pengalaman` varchar(255), `nama_instansi` varchar(255), `periode_mulai` date, `periode_selesai` date, `uraian_pengalaman` text, `target_sks_dimohon` tinyint unsigned not null default '0', `status` varchar(255) not null default 'draft', `total_sks_diakui` tinyint unsigned not null default '0', `catatan` text, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `rpl_dokumen` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `rpl_pengajuan_id` bigint unsigned not null, `jenis_dokumen` varchar(255) not null, `file_path` varchar(255) not null, `keterangan` text, `created_at` datetime, `updated_at` datetime);
+CREATE TABLE IF NOT EXISTS `rpl_konversi` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, `rpl_pengajuan_id` bigint unsigned not null, `mata_kuliah_id` bigint unsigned not null, `nilai_awal` varchar(255), `nilai_konversi` varchar(255), `sks_diakui` tinyint unsigned not null default '0', `disetujui` tinyint(1) not null default '0', `created_at` datetime, `updated_at` datetime);
+
+INSERT INTO beasiswa VALUES(1,'KIP Kuliah','KIP','full',100,0,1,'Beasiswa KIP Kuliah',NULL,NULL);
+INSERT INTO mahasiswa_beasiswa VALUES(1,1,1,3,'SK-001','disetujui','2024-09-01','2025-01-31',NULL,2,'2026-05-03 00:00:00','2026-05-03 00:00:00');
+INSERT INTO tagihan_mahasiswa VALUES(1,1,3,'ukt',2500000,2500000,'lunas','2024-10-01',NULL,'2026-05-03 00:00:00','2026-05-03 00:00:00');
+INSERT INTO pembayaran_mahasiswa VALUES(1,1,1,'kip',2500000,'2026-05-03','approved',NULL,2,NULL,'2026-05-03 00:00:00','2026-05-03 00:00:00');
+INSERT INTO blokir_mahasiswa VALUES(1,1,3,'keuangan','aktif','Menunggu validasi pembayaran',2,NULL,NULL,'2026-05-03 00:00:00','2026-05-03 00:00:00');
+INSERT INTO rpl_pengajuan VALUES(1,1,3,'Pengalaman Kerja sebagai Junior Web Developer','kerja','PT Contoh Digital','2022-08-01','2024-08-31','Pernah bekerja mengelola website perusahaan, membuat halaman admin, dan menangani basis data.',6,'diajukan',6,NULL,'2026-05-03 00:00:00','2026-05-03 00:00:00');
+INSERT INTO rpl_dokumen VALUES(1,1,'sertifikat','rpl-dokumen/sertifikat.pdf','Sertifikat pelatihan',NULL,NULL);
+INSERT INTO rpl_konversi VALUES(1,1,22,'B','A',3,1,'2026-05-03 00:00:00','2026-05-03 00:00:00');
+
+ALTER TABLE `krs`
+  ADD COLUMN `keuangan_status` varchar(255) NOT NULL DEFAULT 'clear' AFTER `status`,
+  ADD COLUMN `keuangan_catatan` text NULL AFTER `keuangan_status`,
+  ADD COLUMN `keuangan_checked_at` datetime NULL AFTER `keuangan_catatan`;
+
+CREATE INDEX `beasiswa_aktif_index` on `beasiswa` (`aktif`);
+CREATE INDEX `mb_mhs_ta_idx` on `mahasiswa_beasiswa` (`mahasiswa_id`, `tahun_akademik_id`);
+CREATE INDEX `mb_status_ta_idx` on `mahasiswa_beasiswa` (`status`, `tahun_akademik_id`);
+CREATE INDEX `tm_mhs_ta_idx` on `tagihan_mahasiswa` (`mahasiswa_id`, `tahun_akademik_id`);
+CREATE INDEX `tm_status_jenis_idx` on `tagihan_mahasiswa` (`status`, `jenis_tagihan`);
+CREATE INDEX `pm_mhs_status_idx` on `pembayaran_mahasiswa` (`mahasiswa_id`, `status_verifikasi`);
+CREATE INDEX `pm_tagihan_status_idx` on `pembayaran_mahasiswa` (`tagihan_mahasiswa_id`, `status_verifikasi`);
+CREATE INDEX `bm_mhs_tipe_status_idx` on `blokir_mahasiswa` (`mahasiswa_id`, `tipe_blokir`, `status`);
+CREATE INDEX `rp_mhs_ta_idx` on `rpl_pengajuan` (`mahasiswa_id`, `tahun_akademik_id`);
+CREATE INDEX `rp_status_idx` on `rpl_pengajuan` (`status`);
+CREATE INDEX `rd_pengajuan_idx` on `rpl_dokumen` (`rpl_pengajuan_id`);
+CREATE INDEX `rk_pengajuan_disetujui_idx` on `rpl_konversi` (`rpl_pengajuan_id`, `disetujui`);

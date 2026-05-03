@@ -356,6 +356,16 @@
                   document.documentElement.classList.toggle('sidebar-collapsed-init', !val);
               });
           ">
+        @php
+            $financeModuleReady = \Illuminate\Support\Facades\Schema::hasTable('tagihan_mahasiswa')
+                && \Illuminate\Support\Facades\Schema::hasTable('pembayaran_mahasiswa')
+                && \Illuminate\Support\Facades\Schema::hasTable('mahasiswa_beasiswa')
+                && \Illuminate\Support\Facades\Schema::hasTable('blokir_mahasiswa');
+
+            $rplModuleReady = \Illuminate\Support\Facades\Schema::hasTable('rpl_pengajuan')
+                && \Illuminate\Support\Facades\Schema::hasTable('rpl_dokumen')
+                && \Illuminate\Support\Facades\Schema::hasTable('rpl_konversi');
+        @endphp
         
         <!-- Mobile Sidebar Overlay (not for mahasiswa) -->
         @if(Auth::user()->role !== 'mahasiswa')
@@ -451,6 +461,24 @@
                         <span class="sidebar-text">Ruangan</span>
                     </a>
 
+                    @if($financeModuleReady || $rplModuleReady)
+                    <div class="pt-4 pb-1">
+                        <p class="px-3 text-[10px] font-semibold text-siakad-secondary/60 uppercase tracking-widest sidebar-section-title">Keuangan & RPL</p>
+                    </div>
+                    @if($financeModuleReady)
+                    <a href="{{ url('admin/keuangan') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-siakad-secondary text-sm font-medium {{ request()->is('admin/keuangan*') ? 'active' : '' }}">
+                        <svg class="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 8c-2.761 0-5 1.79-5 4s2.239 4 5 4 5 1.79 5 4-2.239 4-5 4m0-16c1.657 0 3 1.343 3 3m-3-3v20m0-20C10.343 4 9 5.343 9 7m3 13c-1.657 0-3-1.343-3-3"></path></svg>
+                        <span class="sidebar-text">Keuangan</span>
+                    </a>
+                    @endif
+                    @if($rplModuleReady)
+                    <a href="{{ url('admin/rpl') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-siakad-secondary text-sm font-medium {{ request()->is('admin/rpl*') ? 'active' : '' }}">
+                        <svg class="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 16h-1v-4h-1m1 8h.01M12 4C6.477 4 2 8.477 2 14s4.477 10 10 10 10-4.477 10-10S17.523 4 12 4z"></path></svg>
+                        <span class="sidebar-text">RPL</span>
+                    </a>
+                    @endif
+                    @endif
+
                     <div class="pt-4 pb-1">
                         <p class="px-3 text-[10px] font-semibold text-siakad-secondary/60 uppercase tracking-widest sidebar-section-title">Akademik</p>
                     </div>
@@ -493,6 +521,18 @@
                         <span class="ml-auto px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-700 rounded-full">Baru</span>
                         @endif
                     </a>
+                    @if($financeModuleReady)
+                    <a href="{{ url('mahasiswa/keuangan') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-siakad-secondary text-sm font-medium {{ request()->is('mahasiswa/keuangan*') ? 'active' : '' }}">
+                        <svg class="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 8c-2.761 0-5 1.79-5 4s2.239 4 5 4 5 1.79 5 4-2.239 4-5 4m0-16c1.657 0 3 1.343 3 3m-3-3v20m0-20C10.343 4 9 5.343 9 7m3 13c-1.657 0-3-1.343-3-3"></path></svg>
+                        <span class="sidebar-text">Keuangan</span>
+                    </a>
+                    @endif
+                    @if($rplModuleReady)
+                    <a href="{{ url('mahasiswa/rpl') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-siakad-secondary text-sm font-medium {{ request()->is('mahasiswa/rpl*') ? 'active' : '' }}">
+                        <svg class="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 16h-1v-4h-1m1 8h.01M12 4C6.477 4 2 8.477 2 14s4.477 10 10 10 10-4.477 10-10S17.523 4 12 4z"></path></svg>
+                        <span class="sidebar-text">RPL</span>
+                    </a>
+                    @endif
                     <a href="{{ url('mahasiswa/transkrip') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-siakad-secondary text-sm font-medium {{ request()->is('mahasiswa/transkrip*') ? 'active' : '' }}">
                         <svg class="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                         <span class="sidebar-text">Riwayat Kuliah</span>
@@ -733,6 +773,13 @@
                 <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 <span>Beranda</span>
             </a>
+
+            @if($financeModuleReady)
+            <a href="{{ url('mahasiswa/keuangan') }}" class="flex flex-col items-center justify-center w-full h-full text-[10px] font-medium {{ request()->is('mahasiswa/keuangan*') ? 'text-siakad-primary dark:text-blue-400' : 'text-gray-500 dark:text-gray-400' }}">
+                <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.761 0-5 1.79-5 4s2.239 4 5 4 5 1.79 5 4-2.239 4-5 4m0-16c1.657 0 3 1.343 3 3m-3-3v20m0-20C10.343 4 9 5.343 9 7m3 13c-1.657 0-3-1.343-3-3"></path></svg>
+                <span>Keuangan</span>
+            </a>
+            @endif
             
             <a href="{{ url('mahasiswa/jadwal') }}" class="flex flex-col items-center justify-center w-full h-full text-[10px] font-medium {{ request()->is('mahasiswa/jadwal*') ? 'text-siakad-primary dark:text-blue-400' : 'text-gray-500 dark:text-gray-400' }}">
                 <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -750,6 +797,13 @@
                 <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                 <span>Nilai</span>
             </a>
+
+            @if($rplModuleReady)
+            <a href="{{ url('mahasiswa/rpl') }}" class="flex flex-col items-center justify-center w-full h-full text-[10px] font-medium {{ request()->is('mahasiswa/rpl*') ? 'text-siakad-primary dark:text-blue-400' : 'text-gray-500 dark:text-gray-400' }}">
+                <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 8h.01M12 4C6.477 4 2 8.477 2 14s4.477 10 10 10 10-4.477 10-10S17.523 4 12 4z"></path></svg>
+                <span>RPL</span>
+            </a>
+            @endif
 
             <button type="button" @click="$dispatch('open-mobile-menu')" class="flex flex-col items-center justify-center w-full h-full text-[10px] font-medium text-gray-500 dark:text-gray-400">
                 <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>

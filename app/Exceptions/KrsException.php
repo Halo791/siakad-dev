@@ -19,6 +19,8 @@ class KrsException extends SiakadException
     public const EMPTY_KRS = 'KRS_EMPTY';
     public const INVALID_STATUS = 'KRS_INVALID_STATUS';
     public const NOT_FOUND = 'KRS_NOT_FOUND';
+    public const FINANCE_BLOCKED = 'KRS_FINANCE_BLOCKED';
+    public const RPL_BLOCKED = 'KRS_RPL_BLOCKED';
 
     protected string $errorCode = 'KRS_ERROR';
     protected int $httpStatus = Response::HTTP_UNPROCESSABLE_ENTITY;
@@ -123,6 +125,30 @@ class KrsException extends SiakadException
         $e->errorCode = self::NOT_FOUND;
         $e->httpStatus = Response::HTTP_NOT_FOUND;
         $e->context = ['krs_id' => $krsId];
+        return $e;
+    }
+
+    /**
+     * Create exception for finance blocked KRS
+     */
+    public static function financeBlocked(string $reason): self
+    {
+        $e = new self($reason);
+        $e->errorCode = self::FINANCE_BLOCKED;
+        $e->httpStatus = Response::HTTP_FORBIDDEN;
+        $e->context = ['reason' => $reason];
+        return $e;
+    }
+
+    /**
+     * Create exception for RPL blocked KRS
+     */
+    public static function rplBlocked(string $reason): self
+    {
+        $e = new self($reason);
+        $e->errorCode = self::RPL_BLOCKED;
+        $e->httpStatus = Response::HTTP_FORBIDDEN;
+        $e->context = ['reason' => $reason];
         return $e;
     }
 }

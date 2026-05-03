@@ -45,9 +45,61 @@ return [
 
     'krs_status' => [
         'draft',
+        'blocked_finance',
+        'blocked_rpl',
         'pending',
         'approved',
         'rejected',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status Keuangan KRS
+    |--------------------------------------------------------------------------
+    */
+
+    'krs_finance_status' => [
+        'clear',
+        'pending_payment',
+        'waiting_scholarship',
+        'blocked',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status Pembayaran
+    |--------------------------------------------------------------------------
+    */
+
+    'payment_status' => [
+        'belum_bayar',
+        'menunggu_verifikasi',
+        'lunas',
+        'dibebaskan',
+        'cicilan',
+        'ditolak',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Status Beasiswa / RPL
+    |--------------------------------------------------------------------------
+    */
+
+    'scholarship_status' => [
+        'pengajuan',
+        'pending_verifikasi',
+        'disetujui',
+        'ditolak',
+        'nonaktif',
+    ],
+
+    'rpl_status' => [
+        'draft',
+        'diajukan',
+        'verifikasi',
+        'disetujui',
+        'ditolak',
     ],
 
 

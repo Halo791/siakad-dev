@@ -15,6 +15,13 @@ use App\Models\KrsDetail;
 use App\Models\Nilai;
 use App\Models\JadwalKuliah;
 use App\Models\Ruangan;
+use App\Models\TagihanMahasiswa;
+use App\Models\PembayaranMahasiswa;
+use App\Models\Beasiswa;
+use App\Models\MahasiswaBeasiswa;
+use App\Models\RplPengajuan;
+use App\Models\RplDokumen;
+use App\Models\RplKonversi;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -173,6 +180,81 @@ class DatabaseSeeder extends Seeder
             'dosen_pa_id' => $dosen->id,
             'status' => 'aktif',
         ]);
+
+        // ==========================================
+        // 9A. KEUANGAN / BEASISWA / RPL DEMO
+        // ==========================================
+        $beasiswaKip = Beasiswa::create([
+            'nama' => 'KIP Kuliah',
+            'jenis' => 'KIP',
+            'coverage_type' => 'full',
+            'coverage_percent' => 100,
+            'kuota' => 100,
+            'aktif' => true,
+            'deskripsi' => 'Demo beasiswa penuh untuk mahasiswa berprestasi/kurang mampu.',
+        ]);
+
+        MahasiswaBeasiswa::create([
+            'mahasiswa_id' => $mahasiswa->id,
+            'beasiswa_id' => $beasiswaKip->id,
+            'tahun_akademik_id' => $taAktif->id,
+            'nomor_sk' => 'SK-KIP-2024-001',
+            'status' => 'disetujui',
+            'mulai_berlaku' => now()->startOfMonth()->toDateString(),
+            'berakhir_berlaku' => now()->addMonths(6)->toDateString(),
+            'catatan' => 'Beasiswa penuh aktif untuk demo.',
+            'disetujui_oleh' => $adminFakultas->id,
+        ]);
+
+        $tagihanAktif = TagihanMahasiswa::create([
+            'mahasiswa_id' => $mahasiswa->id,
+            'tahun_akademik_id' => $taAktif->id,
+            'jenis_tagihan' => 'ukt',
+            'nominal' => 3500000,
+            'terbayar' => 0,
+            'status' => 'menunggu_verifikasi',
+            'jatuh_tempo' => now()->addWeeks(2)->toDateString(),
+            'catatan' => 'Tagihan demo semester aktif.',
+        ]);
+
+        PembayaranMahasiswa::create([
+            'tagihan_mahasiswa_id' => $tagihanAktif->id,
+            'mahasiswa_id' => $mahasiswa->id,
+            'metode_pembayaran' => 'transfer',
+            'jumlah_bayar' => 3500000,
+            'tanggal_bayar' => now()->subDays(3)->toDateString(),
+            'status_verifikasi' => 'pending',
+            'bukti_transfer' => null,
+            'catatan_verifikasi' => 'Menunggu validasi admin keuangan.',
+        ]);
+
+        $rpl = RplPengajuan::create([
+            'mahasiswa_id' => $mahasiswa->id,
+            'tahun_akademik_id' => $taAktif->id,
+            'judul_pengajuan' => 'Konversi Pengalaman Kerja',
+            'status' => 'disetujui',
+            'total_sks_diakui' => 6,
+            'catatan' => 'Pengajuan RPL disetujui untuk demo.',
+        ]);
+
+        RplDokumen::create([
+            'rpl_pengajuan_id' => $rpl->id,
+            'jenis_dokumen' => 'surat pengalaman kerja',
+            'file_path' => 'rpl-dokumen/demo-surat-pengalaman.pdf',
+            'keterangan' => 'Dokumen demo.',
+        ]);
+
+        $mkSemester1 = MataKuliah::where('semester', 1)->first();
+        if ($mkSemester1) {
+            RplKonversi::create([
+                'rpl_pengajuan_id' => $rpl->id,
+                'mata_kuliah_id' => $mkSemester1->id,
+                'nilai_awal' => 'A',
+                'nilai_konversi' => 'A',
+                'sks_diakui' => 3,
+                'disetujui' => true,
+            ]);
+        }
 
         // ==========================================
         // 10. RIWAYAT AKADEMIK (4 Semester Selesai)

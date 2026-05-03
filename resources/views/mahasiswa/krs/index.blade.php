@@ -17,6 +17,12 @@
                         <p class="text-2xl font-bold">{{ $krs->krsDetail->sum(fn($d) => $d->kelas->mataKuliah->sks) }}</p>
                         <p class="text-xs opacity-70">Total SKS</p>
                     </div>
+                    @if(($readiness['approved_rpl_sks'] ?? 0) > 0)
+                    <div class="text-center">
+                        <p class="text-2xl font-bold">{{ $readiness['approved_rpl_sks'] }}</p>
+                        <p class="text-xs opacity-70">SKS RPL Diakui</p>
+                    </div>
+                    @endif
                     <div class="text-center">
                         @php
                             $statusColors = [
@@ -33,7 +39,7 @@
                 </div>
             </div>
             
-            @if($krs->status == 'draft')
+            @if($krs->status == 'draft' && ($readiness['status'] ?? 'clear') === 'clear')
             <div class="mt-5 pt-5 border-t border-white/20">
                 <form action="{{ url('mahasiswa/krs/submit') }}" method="POST" class="flex items-center justify-between">
                     @csrf
@@ -72,6 +78,25 @@
         </div>
     </div>
 
+    @if(($readiness['status'] ?? 'clear') !== 'clear')
+    <div class="mb-6 card-saas border border-red-200 bg-red-50/80 p-5">
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold">!</div>
+            <div>
+                <p class="font-semibold text-red-700">KRS ditahan</p>
+                <p class="text-sm text-red-700/80 mt-1">Selesaikan status keuangan atau RPL terlebih dahulu sebelum mengajukan KRS.</p>
+                @if(!empty($readiness['reasons']))
+                <ul class="mt-3 space-y-1 text-sm text-red-700/80 list-disc pl-5">
+                    @foreach($readiness['reasons'] as $reason)
+                    <li>{{ $reason }}</li>
+                    @endforeach
+                </ul>
+                @endif
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Taken Classes -->
         <div class="{{ $krs->status == 'draft' ? 'lg:col-span-2' : 'lg:col-span-3' }}">
@@ -94,7 +119,7 @@
                             </span>
                             <p class="text-[10px] text-siakad-secondary mt-1">SKS</p>
                         </div>
-                        @if($krs->status == 'draft')
+                        @if($krs->status == 'draft' && ($readiness['status'] ?? 'clear') === 'clear')
                         <form action="{{ url('mahasiswa/krs/'.$detail->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -123,7 +148,7 @@
         </div>
 
         <!-- Available Classes -->
-        @if($krs->status == 'draft')
+        @if($krs->status == 'draft' && ($readiness['status'] ?? 'clear') === 'clear')
         <div class="lg:col-span-1">
             <div class="card-saas overflow-hidden sticky top-24">
                 <div class="px-6 py-4 border-b border-siakad-light">
@@ -174,6 +199,17 @@
                         Tidak ada kelas tersedia
                     </div>
                     @endforelse
+                </div>
+            </div>
+        </div>
+        @elseif($krs->status == 'draft')
+        <div class="lg:col-span-1">
+            <div class="card-saas p-6 sticky top-24">
+                <h3 class="font-semibold text-siakad-dark">Kelas Tersedia</h3>
+                <p class="text-sm text-siakad-secondary mt-2">KRS ditahan oleh status keuangan atau RPL. Buka menu Keuangan / RPL untuk menyelesaikan kendala.</p>
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="{{ route('mahasiswa.keuangan.index') }}" class="btn-primary-saas px-4 py-2 rounded-lg text-sm">Keuangan</a>
+                    <a href="{{ route('mahasiswa.rpl.index') }}" class="btn-ghost-saas px-4 py-2 rounded-lg text-sm">RPL</a>
                 </div>
             </div>
         </div>
