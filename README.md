@@ -1,135 +1,98 @@
-<h1 align="center"> SIAKAD AI - Sistem Informasi Akademik</h1>
+<h1 align="center"> SIAKAD AI - Sistem Informasi Akademik</h1><p align="center"> <strong>Modern Academic Information System built with Laravel 12</strong> </p><p align="center"> <a href="#features">Features</a> • <a href="#tech-stack">Tech Stack</a> • <a href="#installation">Installation</a> • <a href="#configuration">Configuration</a> • <a href="#usage">Usage</a> • <a href="#api-documentation">API</a> • <a href="#contributing">Contributing</a> </p><p align="center"> <img src="https://img.shields.io/badge/Laravel-12-red?style=flat-square&logo=laravel" alt="Laravel Version"> <img src="https://img.shields.io/badge/PHP-8.2+-blue?style=flat-square&logo=php" alt="PHP Version"> <img src="https://img.shields.io/badge/TailwindCSS-3.x-38bdf8?style=flat-square&logo=tailwindcss" alt="TailwindCSS"> <img src="https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=flat-square&logo=alpine.js" alt="Alpine.js"> <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"> </p>
+Overview
+SIAKAD (Sistem Informasi Akademik) adalah aplikasi manajemen akademik modern yang dirancang untuk universitas dan perguruan tinggi. Dibangun dengan Laravel 12 dan menggunakan arsitektur yang clean, scalable, dan production-ready.
 
-<p align="center">
-  <strong>Modern Academic Information System built with Laravel 12</strong>
-</p>
+Pemilik & Pengembang: HRD Digital Solution
 
-<p align="center">
-  <a href="#features">Features</a> •
-  <a href="#tech-stack">Tech Stack</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#configuration">Configuration</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#api-documentation">API</a> •
-  <a href="#contributing">Contributing</a>
-</p>
+Highlights
+Modern UI - Responsive design dengan TailwindCSS dan Alpine.js
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Laravel-12-red?style=flat-square&logo=laravel" alt="Laravel Version">
-  <img src="https://img.shields.io/badge/PHP-8.2+-blue?style=flat-square&logo=php" alt="PHP Version">
-  <img src="https://img.shields.io/badge/TailwindCSS-3.x-38bdf8?style=flat-square&logo=tailwindcss" alt="TailwindCSS">
-  <img src="https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=flat-square&logo=alpine.js" alt="Alpine.js">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
-</p>
+AI-Powered - Academic Advisor berbasis Gemini AI
 
----
+Secure - Role-based access control, rate limiting, dan security headers
 
-## Overview
+Fast - Optimized queries, caching strategy, dan database indexes
 
-**SIAKAD** (Sistem Informasi Akademik) adalah aplikasi manajemen akademik modern yang dirancang untuk universitas dan perguruan tinggi. Dibangun dengan Laravel 12 dan menggunakan arsitektur yang clean, scalable, dan production-ready.
+Responsive - Mobile-friendly interface
 
-### Highlights
+Indonesian Locale - Fully localized untuk bahasa Indonesia
 
-- **Modern UI** - Responsive design dengan TailwindCSS dan Alpine.js
-- **AI-Powered** - Academic Advisor berbasis Gemini AI
-- **Secure** - Role-based access control, rate limiting, dan security headers
-- **Fast** - Optimized queries, caching strategy, dan database indexes
-- **Responsive** - Mobile-friendly interface
-- **Indonesian Locale** - Fully localized untuk bahasa Indonesia
+Features
+Mahasiswa
+Feature	Description
+KRS Online	Pengisian Kartu Rencana Studi dengan validasi SKS otomatis
+Transkrip Nilai	Lihat transkrip akademik lengkap dengan IPK/IPS
+KHS	Kartu Hasil Studi per semester
+Presensi	Riwayat kehadiran per mata kuliah
+Jadwal Kuliah	Jadwal perkuliahan mingguan
+E-Learning (LMS)	Akses materi dan tugas kuliah
+AI Academic Advisor	Konsultasi akademik dengan AI Gemini
+Skripsi	Tracking progress skripsi dan bimbingan
+Kerja Praktek	Manajemen KP dan logbook
+Export PDF	Download transkrip dan KHS dalam format PDF
+Dosen
+Feature	Description
+Input Nilai	Input nilai mahasiswa per kelas
+Presensi Kelas	Kelola pertemuan dan presensi mahasiswa
+Bimbingan PA	Persetujuan KRS mahasiswa bimbingan
+Bimbingan Skripsi	Review bimbingan dan update status skripsi
+Bimbingan KP	Review logbook kerja praktek
+LMS Management	Upload materi dan kelola tugas
+Kehadiran	Absensi kehadiran dosen
+Admin
+Feature	Description
+Dashboard	Statistik dan overview akademik
+Master Data	Kelola Fakultas, Prodi, Mata Kuliah, Kelas
+User Management	Kelola akun Dosen dan Mahasiswa
+KRS Approval	Monitoring dan approval KRS (view only)
+Skripsi & KP	Assign pembimbing dan update status
+Ruangan	Manajemen ruang kuliah
+Kehadiran Dosen	Monitoring kehadiran dosen
+Security Features
+✅ Role-based access control (RBAC)
 
----
+✅ Faculty-scoped admin access
 
-## Features
+✅ Rate limiting pada endpoint sensitif
 
-### Mahasiswa
-| Feature | Description |
-|---------|-------------|
-| **KRS Online** | Pengisian Kartu Rencana Studi dengan validasi SKS otomatis |
-| **Transkrip Nilai** | Lihat transkrip akademik lengkap dengan IPK/IPS |
-| **KHS** | Kartu Hasil Studi per semester |
-| **Presensi** | Riwayat kehadiran per mata kuliah |
-| **Jadwal Kuliah** | Jadwal perkuliahan mingguan |
-| **E-Learning (LMS)** | Akses materi dan tugas kuliah |
-| **AI Academic Advisor** | Konsultasi akademik dengan AI Gemini |
-| **Skripsi** | Tracking progress skripsi dan bimbingan |
-| **Kerja Praktek** | Manajemen KP dan logbook |
-| **Export PDF** | Download transkrip dan KHS dalam format PDF |
+✅ CSRF protection
 
-### Dosen
-| Feature | Description |
-|---------|-------------|
-| **Input Nilai** | Input nilai mahasiswa per kelas |
-| **Presensi Kelas** | Kelola pertemuan dan presensi mahasiswa |
-| **Bimbingan PA** | Persetujuan KRS mahasiswa bimbingan |
-| **Bimbingan Skripsi** | Review bimbingan dan update status skripsi |
-| **Bimbingan KP** | Review logbook kerja praktek |
-| **LMS Management** | Upload materi dan kelola tugas |
-| **Kehadiran** | Absensi kehadiran dosen |
+✅ Security headers middleware
 
-### Admin
-| Feature | Description |
-|---------|-------------|
-| **Dashboard** | Statistik dan overview akademik |
-| **Master Data** | Kelola Fakultas, Prodi, Mata Kuliah, Kelas |
-| **User Management** | Kelola akun Dosen dan Mahasiswa |
-| **KRS Approval** | Monitoring dan approval KRS (view only) |
-| **Skripsi & KP** | Assign pembimbing dan update status |
-| **Ruangan** | Manajemen ruang kuliah |
-| **Kehadiran Dosen** | Monitoring kehadiran dosen |
+✅ Input validation & sanitization
 
-### Security Features
-- ✅ Role-based access control (RBAC)
-- ✅ Faculty-scoped admin access
-- ✅ Rate limiting pada endpoint sensitif
-- ✅ CSRF protection
-- ✅ Security headers middleware
-- ✅ Input validation & sanitization
+Tech Stack
+Backend
+Technology	Version	Description
+PHP	8.2	Server-side language
+Laravel	12	PHP Framework
+Laravel Breeze	2	Authentication scaffolding
+Spatie Permission	6	Role & permission management
+Frontend
+Technology	Version	Description
+TailwindCSS	3	Utility-first CSS framework
+Alpine.js	3	Lightweight JavaScript framework
+Vite	7	Frontend build tool
+Database
+Technology	Description
+MySQL	Recommended for production
+PostgreSQL	Alternative production database
+SQLite	Development & testing
+AI Integration
+Technology	Description
+Google Gemini API	AI Academic Advisor
+Installation
+Prerequisites
+PHP 8.2 or higher
 
----
+Composer 2.x
 
-## Tech Stack
+Node.js 18+ & npm
 
-### Backend
-| Technology | Version | Description |
-|------------|---------|-------------|
-| **PHP** | 8.2 | Server-side language |
-| **Laravel** | 12 | PHP Framework |
-| **Laravel Breeze** | 2 | Authentication scaffolding |
-| **Spatie Permission** | 6 | Role & permission management |
+MySQL 8.0+ / PostgreSQL 14+ (for production)
 
-### Frontend
-| Technology | Version | Description |
-|------------|---------|-------------|
-| **TailwindCSS** | 3 | Utility-first CSS framework |
-| **Alpine.js** | 3 | Lightweight JavaScript framework |
-| **Vite** | 7 | Frontend build tool |
-
-### Database
-| Technology | Description |
-|------------|-------------|
-| **MySQL** | Recommended for production |
-| **PostgreSQL** | Alternative production database |
-| **SQLite** | Development & testing |
-
-### AI Integration
-| Technology | Description |
-|------------|-------------|
-| **Google Gemini API** | AI Academic Advisor |
-
----
-
-## Installation
-
-### Prerequisites
-
-- PHP 8.2 or higher
-- Composer 2..x
-- Node.js 18+ & npm
-- MySQL 8.0+ / PostgreSQL 14+ (for production)
-
-### Quick Start
-
-```bash
+Quick Start
+bash
 # 1. Clone the repository
 git clone https://github.com/ryandaaa/siakad.git
 cd siakad
@@ -154,63 +117,55 @@ php artisan migrate --seed
 
 # 8. Start the development server
 php artisan serve
-```
-
-### One-Command Setup
-
-```bash
+One-Command Setup
+bash
 composer setup
-```
-
 This will automatically:
-- Install Composer dependencies
-- Copy `.env.example` to `.env`
-- Generate application key
-- Run migrations
-- Install npm dependencies
-- Build frontend assets
 
-### Development Mode
+Install Composer dependencies
 
-```bash
+Copy .env.example to .env
+
+Generate application key
+
+Run migrations
+
+Install npm dependencies
+
+Build frontend assets
+
+Development Mode
+bash
 composer dev
-```
-
 This starts all development services concurrently:
-- Laravel development server (`php artisan serve`)
-- Queue worker (`php artisan queue:listen`)
-- Log viewer (`php artisan pail`)
-- Vite dev server (`npm run dev`)
 
----
+Laravel development server (php artisan serve)
 
-## ⚙️ Configuration
+Queue worker (php artisan queue:listen)
 
-### Environment Variables
+Log viewer (php artisan pail)
 
-#### Database (MySQL - Production)
-```env
+Vite dev server (npm run dev)
+
+⚙️ Configuration
+Environment Variables
+Database (MySQL - Production)
+env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=siakad
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
-```
-
-#### Database (SQLite - Development)
-```env
+Database (SQLite - Development)
+env
 DB_CONNECTION=sqlite
-```
-
-#### AI Integration (Gemini)
-```env
+AI Integration (Gemini)
+env
 # Get your API key at: https://aistudio.google.com/
 GEMINI_API_KEY=your_gemini_api_key
-```
-
-#### Cache & Session (Production)
-```env
+Cache & Session (Production)
+env
 SESSION_DRIVER=database
 CACHE_STORE=database
 
@@ -219,13 +174,10 @@ SESSION_DRIVER=redis
 CACHE_STORE=redis
 REDIS_HOST=127.0.0.1
 REDIS_PORT=6379
-```
+Academic Configuration
+Edit config/siakad.php to customize:
 
-### Academic Configuration
-
-Edit `config/siakad.php` to customize:
-
-```php
+php
 return [
     // SKS limits based on IPS
     'maks_sks' => [
@@ -253,28 +205,18 @@ return [
     // Pagination
     'pagination' => 15,
 ];
-```
-
----
-
-## Default Users
-
+Default Users
 After running seeders, you can login with:
 
-| Role | Email | Password | Description |
-|------|-------|----------|-------------|
-| **Superadmin** | `superadmin@siakad.test` | `password` | Full system access |
-| **Admin Fakultas** | `admin.ftik@siakad.test` | `password` | Faculty-scoped admin |
-| **Dosen** | `dosen@siakad.test` | `password` | Dr. Ahmad Fauzi, M.Kom. |
-| **Mahasiswa** | `mahasiswa@siakad.test` | `password` | Budi Santoso (Semester 5, NIM: 2022101001) |
+Role	Email	Password	Description
+Superadmin	superadmin@siakad.test	password	Full system access
+Admin Fakultas	admin.ftik@siakad.test	password	Faculty-scoped admin
+Dosen	dosen@siakad.test	password	Dr. Ahmad Fauzi, M.Kom.
+Mahasiswa	mahasiswa@siakad.test	password	Budi Santoso (Semester 5, NIM: 2022101001)
+Important: Change these passwords immediately in production!
 
-> **Important**: Change these passwords immediately in production!
-
----
-
-## Project Structure
-
-```
+Project Structure
+text
 siakad/
 ├── app/
 │   ├── Console/Commands/      # Artisan commands
@@ -304,15 +246,9 @@ siakad/
 │       └── layouts/           # Layout templates
 └── routes/
     └── web.php                # Web routes
-```
-
----
-
-## Database Schema
-
-### Core Tables
-
-```
+Database Schema
+Core Tables
+text
 ┌──────────────┐     ┌─────────────┐     ┌────────────┐
 │    users     │     │   fakultas  │     │   prodi    │
 ├──────────────┤     ├─────────────┤     ├────────────┤
@@ -354,28 +290,35 @@ siakad/
 │ tahun_akad_id│                         └────────────┘
 │ status       │
 └──────────────┘
-```
+Additional Tables
+nilai - Student grades
 
-### Additional Tables
-- `nilai` - Student grades
-- `jadwal_kuliah` - Class schedules
-- `pertemuan` - Class meetings
-- `presensi` - Attendance records
-- `skripsi` - Thesis management
-- `bimbingan_skripsi` - Thesis guidance
-- `kerja_praktek` - Internship
-- `logbook_kp` - Internship logbook
-- `materi` - Learning materials
-- `tugas` - Assignments
-- `tugas_submission` - Assignment submissions
-- `notifications` - System notifications
-- `ai_conversation_logs` - AI chat logs
+jadwal_kuliah - Class schedules
 
----
+pertemuan - Class meetings
 
-## Artisan Commands
+presensi - Attendance records
 
-```bash
+skripsi - Thesis management
+
+bimbingan_skripsi - Thesis guidance
+
+kerja_praktek - Internship
+
+logbook_kp - Internship logbook
+
+materi - Learning materials
+
+tugas - Assignments
+
+tugas_submission - Assignment submissions
+
+notifications - System notifications
+
+ai_conversation_logs - AI chat logs
+
+Artisan Commands
+bash
 # Cache warming (after deployment)
 php artisan cache:warm
 
@@ -390,13 +333,8 @@ php artisan db:seed
 
 # Fresh migration with seeding
 php artisan migrate:fresh --seed
-```
-
----
-
-## Testing
-
-```bash
+Testing
+bash
 # Run all tests
 php artisan test
 
@@ -405,88 +343,81 @@ php artisan test
 
 # Run with coverage
 php artisan test --coverage
-```
+Security
+Rate Limiting
+AI Chat: 10 requests/minute per user
 
----
+KRS Operations: 10 requests/minute per user
 
-## Security
+Penilaian: 20 requests/minute per user
 
-### Rate Limiting
-- AI Chat: 10 requests/minute per user
-- KRS Operations: 10 requests/minute per user
-- Penilaian: 20 requests/minute per user
+Middleware
+role - Role-based access control
 
-### Middleware
-- `role` - Role-based access control
-- `fakultas.scope` - Faculty-scoped data access
-- `SecurityHeadersMiddleware` - Security headers
+fakultas.scope - Faculty-scoped data access
 
-### Validation
-- All inputs are validated using Laravel Form Requests
-- Custom exceptions for business logic errors
-- CSRF protection on all forms
+SecurityHeadersMiddleware - Security headers
 
----
+Validation
+All inputs are validated using Laravel Form Requests
 
-## Performance
+Custom exceptions for business logic errors
 
-### Optimizations
-- Database indexes on frequently queried columns
-- Query optimization (N+1 prevention)
-- Master data caching (1 hour TTL)
-- Eager loading relationships
+CSRF protection on all forms
 
-### Caching Strategy
-```php
+Performance
+Optimizations
+Database indexes on frequently queried columns
+
+Query optimization (N+1 prevention)
+
+Master data caching (1 hour TTL)
+
+Eager loading relationships
+
+Caching Strategy
+php
 // Master data cached:
 - Tahun Akademik Aktif
 - Fakultas list
 - Prodi list
 - Mata Kuliah list
 - Dosen list
-```
-
----
-
-## Contributing
-
+Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Fork the repository
 
-### Development Guidelines
-- Follow PSR-12 coding standards
-- Write tests for new features
-- Update documentation as needed
-- Keep commits atomic and well-described
+Create your feature branch (git checkout -b feature/AmazingFeature)
 
----
+Commit your changes (git commit -m 'Add some AmazingFeature')
 
-## License
+Push to the branch (git push origin feature/AmazingFeature)
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Open a Pull Request
 
----
+Development Guidelines
+Follow PSR-12 coding standards
 
-## Author
+Write tests for new features
 
-Developed with ❤️ by Ryanda
+Update documentation as needed
 
----
+Keep commits atomic and well-described
 
-## 🙏 Acknowledgments
+License
+This project is open-sourced software licensed under the MIT license.
 
-- [Laravel](https://laravel.com/) - The PHP Framework for Web Artisans
-- [TailwindCSS](https://tailwindcss.com/) - A utility-first CSS framework
-- [Alpine.js](https://alpinejs.dev/) - A rugged, minimal JavaScript framework
-- [Google Gemini](https://deepmind.google/technologies/gemini/) - AI for Academic Advisor
+Owner
+HRD Digital Solution – Solusi digital terintegrasi untuk manajemen sumber daya dan akademik.
 
----
+🙏 Acknowledgments
+Laravel - The PHP Framework for Web Artisans
 
-<p align="center">
-  Made with ☕ and Laravel
-</p>
+TailwindCSS - A utility-first CSS framework
+
+Alpine.js - A rugged, minimal JavaScript framework
+
+Google Gemini - AI for Academic Advisor
+
+<p align="center"> Made with ☕ and Laravel – <strong>HRD Digital Solution</strong> </p>
