@@ -19,7 +19,7 @@ exit(1);
 done
 
 if [ ! -f vendor/autoload.php ]; then
-    composer install --no-interaction --prefer-dist --optimize-autoloader
+    composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 fi
 
 php artisan config:clear >/dev/null 2>&1 || true

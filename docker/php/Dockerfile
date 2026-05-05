@@ -11,6 +11,7 @@ RUN apt-get update \
         libxml2-dev \
         libpng-dev \
         libjpeg62-turbo-dev \
+        libonig-dev \
         libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
